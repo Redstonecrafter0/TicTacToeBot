@@ -30,18 +30,23 @@ public class MessageListener extends ListenerAdapter {
         if (event.getMessage().getContentRaw().startsWith("!ttt invite")) {
             if (!games.containsKey(event.getMember())) {
                 if (event.getMessage().getMentionedMembers().size() == 1) {
-                    if (!games.containsKey(event.getMessage().getMentionedMembers().get(0))) {
-                        if (!requestsContainsInvited(event.getMember()) && !requestsContainsInviter(event.getMember())
-                        && !requestsContainsInvited(event.getMessage().getMentionedMembers().get(0)) && !requestsContainsInviter(event.getMessage().getMentionedMembers().get(0))) {
-                            requests.add(new Request(event.getMember(), event.getMessage().getMentionedMembers().get(0), event.getChannel(), (System.currentTimeMillis() / 1000L) + 60));
-                            eb.setDescription("Du hast " + event.getMessage().getMentionedMembers().get(0).getAsMention() + " zu einem Spiel eingeladen.\nEr hat 60 Sekunden Zeit, die Einladung anzunehmen.");
-                            event.getChannel().sendMessage(eb.build()).queue();
+                    if (!event.getMember().equals(event.getMessage().getMentionedMembers().get(0))) {
+                        if (!games.containsKey(event.getMessage().getMentionedMembers().get(0))) {
+                            if (!requestsContainsInvited(event.getMember()) && !requestsContainsInviter(event.getMember())
+                            && !requestsContainsInvited(event.getMessage().getMentionedMembers().get(0)) && !requestsContainsInviter(event.getMessage().getMentionedMembers().get(0))) {
+                                requests.add(new Request(event.getMember(), event.getMessage().getMentionedMembers().get(0), event.getChannel(), (System.currentTimeMillis() / 1000L) + 60));
+                                eb.setDescription("Du hast " + event.getMessage().getMentionedMembers().get(0).getAsMention() + " zu einem Spiel eingeladen.\nEr hat 60 Sekunden Zeit, die Einladung anzunehmen.");
+                                event.getChannel().sendMessage(eb.build()).queue();
+                            } else {
+                                eb.setDescription("Es läuft schon ein Spiel.");
+                                event.getChannel().sendMessage(eb.build()).queue();
+                            }
                         } else {
-                            eb.setDescription("Es läuft schon ein Spiel.");
+                            eb.setDescription("Dieser Spieler spielt bereits.");
                             event.getChannel().sendMessage(eb.build()).queue();
                         }
                     } else {
-                        eb.setDescription("Dieser Spieler spielt bereits.");
+                        eb.setDescription("Du kannst nicht gegen dich selbst spielen.");
                         event.getChannel().sendMessage(eb.build()).queue();
                     }
                 } else {

@@ -1,3 +1,4 @@
 target
 .idea
 TicTacToeBot.iml
+src/main/java/net/redstonecraft/tictactoebot/Main.java
