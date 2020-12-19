@@ -11,7 +11,7 @@ import javax.security.auth.login.LoginException;
 
 public class Main {
 
-    private final static String botToken = "NzQwOTQ0OTEzMzkwMjM5NzY1.XywYuQ.OcDJnPxwxCXUZR25qDQTp9bNdIA";
+    private final static String botToken = "";
     private JDA jda;
 
     public static void main(String[] args) {
